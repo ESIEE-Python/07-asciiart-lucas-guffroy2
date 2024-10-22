@@ -1,43 +1,49 @@
 #### Imports et définition des variables globales
-
+import sys
+sys.setrecursionlimit(10000)
 
 #### Fonctions secondaires
 
 
 def artcode_i(s):
-    """retourne la liste de tuples encodant une chaîne de caractères passée en argument selon un algorithme itératif
-
-    Args:
-        s (str): la chaîne de caractères à encoder
-
-    Returns:
-        list: la liste des tuples (caractère, nombre d'occurences)
-    """
-    
     # votre code ici
 
-    return [ ]
+    encoded = []
+    current_char = s[0]
+    count = 1
 
+    # Parcourir la chaîne de caractères
+    for i in range(1, len(s)):
+        if s[i] == current_char:
+            count += 1
+        else:
+            encoded.append((current_char, count))
+            current_char = s[i]
+            count = 1
+
+    # Ajouter le dernier tuple
+    encoded.append((current_char, count))
+
+    return encoded
 
 def artcode_r(s):
-    """retourne la liste de tuples encodant une chaîne de caractères passée en argument selon un algorithme récursif
-
-    Args:
-        s (str): la chaîne de caractères à encoder
-
-    Returns:
-        list: la liste des tuples (caractère, nombre d'occurences)
-    """
-    
     # votre code ici
 
     # cas de base
     # recherche nombre de caractères identiques au premier
     # appel récursif
 
-    return []
-    
+    if not s:
+        return []
 
+    def count_consecutive(s, char, index):
+        if index == len(s) or s[index] != char:
+            return index
+        return count_consecutive(s, char, index + 1)
+
+    count = count_consecutive(s, s[0], 1)
+
+    return [(s[0], count)] + artcode_r(s[count:])
 #### Fonction principale
 
 
